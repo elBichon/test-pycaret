@@ -1,11 +1,12 @@
 FROM python:3.7-slim
 WORKDIR /app
 ADD . /app
-RUN INSTALL_PATH=~/anaconda \
-    && wget http://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
-    && bash Miniconda2-latest* -fbp $INSTALL_PATH \
-    && PATH=$INSTALL_PATH/bin:$PATH
-RUN conda install bottleneck 
 RUN apt-get update && apt-get install -y libgomp1
+RUN sudo apt-get install curl
+RUN cd /tmp
+RUN curl –O https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
+RUN sha256sum Anaconda3–2020.02–Linux–x86_64.sh
+RUN bash Anaconda3-2020.02-Linux-x86_64.sh
+RUN conda install bottleneck 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 CMD ["/app/app.py"]
